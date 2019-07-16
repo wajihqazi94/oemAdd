@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      <meta name="description" content="">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>oemAdd</title>
+      <!-- build:css styles/vendor.css -->
+      <!-- bower:css -->
+      <!-- endbower -->
+      <!-- endbuild -->
+      <!-- build:css styles/main.css -->
+      <link rel="stylesheet" href="styles/main.css">
+      <!-- endbuild -->
+      <!-- build:js scripts/vendor.js -->
+      <!-- bower:js -->
+      <!-- endbower -->
+      <!-- endbuild -->
+      <!-- build:js scripts/main.js -->
+      <script src="scripts/main.js"></script>
+      <!-- endbuild -->
+   </head>
+   <body>
+      <svg class="svgSprite" xmlns="http://www.w3.org/2000/svg">
+         <symbol viewBox="0 0 580 1000" id="question-mark">
+            <path d="M494 110q86 62 86 184 0 64-42 124-12 20-88 80l-46 30q-40 34-48 60-6 16-8 44 0 14-16 14H204q-16 0-16-12 4-98 28-124 16-22 48-48t56-42l24-14q22-16 34-34 28-44 28-70 0-40-26-78-28-36-92-36-68 0-94 44-28 42-28 92H0Q6 162 114 92q70-42 166-42 130 0 214 60zM278 746q44 0 73 30t27 74q-2 46-32 73t-74 25q-44 0-73-29t-27-75 32-73 74-25z"></path>
+         </symbol>
+      </svg>
+      <div id="oemAdd">
+         <header class="geotabPageHeader">
+            <h1 class="geotabPageName">OEM Provider Config</h1>
+            <div class="oemHelp">
+               <label class="oemToolTip oemHelpBtn oemBtn" id="oemHelpButton">
+                  <svg class="oemIcon">
+                     <use xlink:href="#question-mark"></use>
+                  </svg>
+               </label>
+            </div>
+         </header>
+         <div id="oemPrimary">
+            <h2>Available OEM Providers</h2>
+            <div id="oemConfig">
+               <div class="oemField clearfix">
+                  <label>OEM Providers:</label>
+                  <select id="oemProviders" multiple>
+                  </select>
+               </div>
+               <div class="oemField">
+                  <button class="oemBtn oemFormBtn" id="oemAddSelected" disabled>Add Selected</button>
+                  <button class="oemBtn oemFormBtn" id="oemAddAll" disabled>Add All</button>
+               </div>
+               <div class="hidden oemField oemAlertBoxError" id="oemErrorBox"> 
+                  <label id="oemErrorLabel"></label>
+               </div>
+               <div class="oemField">
+                  <label id="oemProgressLabel"></label>
+               </div>
+               <div class="hidden oemField oemProgress" id="oemProgressBox">
+                  <progress id="oemProgressBar" value="0" max="100"></progress>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>

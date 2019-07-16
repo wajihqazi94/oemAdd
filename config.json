@@ -1,0 +1,13 @@
+{
+  "name": "oemAdd",
+  "supportEmail": "support@geotab.com",
+  "version": "0.0.1",
+  "items": [{
+    "url": "https://app.geotab.com/addins/geotab/oem_config/0.0.1/oemAdd.html",
+    "path": "EngineMaintenanceLink/",
+    "menuName": {
+      "en": "OEM Provider Config"
+    },
+    "icon": "images/icon.svg"
+  }]
+}

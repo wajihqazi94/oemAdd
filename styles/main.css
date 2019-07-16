@@ -1,0 +1,318 @@
+.hidden {
+    display: none;
+}
+
+.clearfix {
+	content: "";
+	clear: both;
+}
+
+.oemField {
+	border-radius: 2px;
+	margin: 6px 0px;
+	padding: 2px;
+}
+
+.oemField select:nth-child(2),
+.oemField button:nth-child(2) {
+	float: right;
+}
+
+.oemField label {
+	color: #757575;
+}
+
+.oemField select {
+	overflow: scroll;
+}
+
+.oemField label,
+.oemField select {
+	margin: 0px 4px;
+}
+/* oemAlertBox for future to add warnings in yellow if needed*/
+.oemAlertBox {
+	background-color: #fffedd;
+	border: 1px solid #ffeb94;
+	border-radius: 4px;
+}
+
+.oemAlertBoxError {
+	background-color: #f2dede;
+	border: 1px solid #ce838f;
+	color: #ca0b0b;
+	margin: 6px 6px;
+	padding: 4px 12px 4px 12px;
+}
+
+.oemHelp {
+	padding-left: 6px;
+	text-align: center;
+	line-height: 32px;
+}
+
+.oemToolTip {
+	border-radius: 3px;
+	background-color: #e8f3fd;
+	border: 1px solid #c5dbec;
+	width: 30px;
+	height: 30px;
+	color: #25477b;
+	cursor: pointer;
+}
+
+.oemHelpBtn {
+	margin-top: 17px;
+	float: left;
+}
+
+.oemIcon {
+	width: 12px;
+	height: 12px;
+}
+
+.oemBtn {
+	border-radius: 3px;
+	border: 1px solid #c5dbec;
+	background-color: #e8f3fd;
+	color: #25477b;
+	fill: #25477b;
+	cursor: pointer;
+}
+
+.oemProgress {
+	margin: 6px 4px;
+}
+
+.oemBtn:hover {
+	border-color: #5293c6;
+	background: #d1e7fb;
+	color: #25477b;
+}
+
+.oemBtn:active {
+	color: #ffffff;
+	fill: #ffffff;
+	border-color: #2c7ab1;
+	background: #2c7ab1;
+}
+
+.oemFormBtn {
+	margin: 0px 4px;
+	width: 45%;
+}
+
+#oemProviders {
+	width: 45%;
+	border-color: #c5dbec;
+}
+
+#oemConfig {
+	width: 15%;
+	padding: 1px;
+}
+
+#oemPrimary h2 {
+	color: #25477b;
+	text-transform: uppercase;
+}
+
+#oemProgressBar {
+	-webkit-appearance: none;
+	border: none;
+	width: 100%;
+}
+
+#oemProgressBar::-webkit-progress-bar {
+	background-color: #d1e7fb;
+	border-radius: 7px;
+}
+
+#oemProgressBar::-webkit-progress-value {
+	border-radius: 7px;
+	background: #25477b;
+}
+
+#oemErrorLabel {
+	color: #cd0a0a;
+	margin: 0px 0px;
+}
+
+/* Skin for Simple Dialog Box Plugin */
+.dialog-box-oem {
+  width:300px;
+  height:150px;
+  background-color:white;
+  border:1px solid #ccc;
+  border-radius: 3px;
+  -webkit-box-shadow:0 1px 5px rgba(0,0,0,.2);
+  -mz-box-shadow:0 1px 5px rgba(0,0,0,.2);
+  box-shadow:0 1px 5px rgba(0,0,0,.2);
+  position:absolute;
+  width:200px;
+  height:100px;
+  margin-top:-51px;
+  margin-left:-101px;
+  z-index:9999;
+  color:#222;
+  visibility:hidden;
+  opacity:0;
+}
+.dialog-box-oem .dialog-title {
+  margin:0;
+  padding:0;
+  font:inherit;
+  color:#25477b;
+  font-weight:bold;
+  height:2em;
+  line-height:2em;
+  overflow:hidden;
+  padding:0 .8em;
+  background-color:#FFFFFF;
+  cursor:move;
+}
+.dialog-box-oem .dialog-content {
+  border-top:1px solid #ccc;
+  padding:1em;
+  position:absolute;
+  top:2em;
+  right:0;
+  bottom:3em;
+  left:0;
+  overflow:auto;
+}
+.dialog-box-oem .dialog-content iframe {
+  display:block;
+  border:none;
+  background:none;
+  margin:0;
+  padding:0;
+  overflow:auto;
+  width:100%;
+  height:100%;
+}
+.dialog-box-oem .dialog-content::-webkit-scrollbar {
+  width:8px;
+  height:8px;
+  background-color:#f5f5f5;
+  border-left:1px solid #ccc;
+}
+.dialog-box-oem .dialog-content::-webkit-scrollbar-thumb {
+  background-color:#666;
+  border:none;
+}
+.dialog-box-oem .dialog-content::-webkit-scrollbar-thumb:hover {background-color:#555}
+.dialog-box-oem .dialog-content::-webkit-scrollbar-thumb:active {background-color:#444}
+.dialog-box-oem .dialog-action {
+  position:absolute;
+  right:0;
+  bottom:0;
+  left:0;
+  height:2em;
+  padding:.5em;
+  background-color:#FFFFFF;
+  border-top:1px solid #ccc;
+  text-align:right;
+}
+.dialog-box-oem .dialog-action .btn, .btn {
+  text-decoration:none;
+  border:none;
+  outline:none;
+  color: #25477b;
+  font-weight:bold;
+  background-color:#e8f3fd;
+  border:1px solid #c5dbec;
+  -webkit-border-radius:.2em;
+  -moz-border-radius:.2em;
+  border-radius: 3px;
+  padding:.4em 1em;
+  margin-left:.2em;
+  line-height:2em;
+  cursor:pointer;
+}
+.dialog-box-oem .dialog-close,
+.dialog-box-oem .dialog-minmax {
+  border:none;
+  outline:none;
+  background:none;
+  font:inherit;
+  font-family:Arial,Sans-Serif;
+  font-style:normal;
+  font-weight:bold;
+  font-size:150%;
+  line-height:1.4em;
+  color:#aaa;
+  text-decoration:none;
+  position:absolute;
+  top:0;
+  right:.3em;
+  text-align:center;
+  cursor:pointer;
+}
+.dialog-box-oem .dialog-minmax {right:1.5em}
+.dialog-box-oem .dialog-close:focus,
+.dialog-box-oem .dialog-minmax:focus,
+.dialog-box-oem .dialog-action .btn:focus {
+  border-width:0;
+  outline:none;
+}
+.dialog-box-oem .dialog-close:hover,
+.dialog-box-oem .dialog-minmax:hover {color:#777}
+.dialog-box-oem .dialog-close:focus,
+.dialog-box-oem .dialog-minmax:focus {color:#C90000}
+.dialog-box-oem .dialog-close:active,
+.dialog-box-oem .dialog-minmax:active {color:#444}
+.dialog-box-oem .dialog-action .btn:hover, .btn:hover {
+	border-color:#5293c6;
+	background: #d1e7fb;
+}
+.dialog-box-oem .dialog-action .btn:focus {
+  border-color:#2c7ab1;
+  border-width:1px;
+}
+.dialog-box-oem .dialog-action .btn:active, .btn:active {
+  color: #fff;
+  border-color:#2c7ab1;
+  background-color:#2c7ab1;
+}
+.dialog-box-oem + .dialog-box-oem-overlay {
+  background-color:black;
+  opacity:.2;
+  filter:alpha(opacity=20);
+  position:fixed !important;
+  position:absolute;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  z-index:9997;
+  display:none;
+}
+.dialog-box-oem.fixed-dialog-box-oem {
+  position:fixed !important;
+  position:absolute;
+}
+.dialog-box-oem.minimize {
+  width:2em !important;
+  height:2em !important;
+  overflow:hidden !important;
+  margin-top:0 !important;
+  margin-left:0 !important;
+  top:-1px !important;
+  left:1em !important;
+}
+.dialog-box-oem .minimize .dialog-title {
+  color:transparent;
+  text-shadow:none;
+  text-indent:-9999px;
+}
+.dialog-box.minimize .dialog-minmax {
+  right:0;
+  left:0;
+}
+.dialog-box-oem.minimize .dialog-close,
+.dialog-box-oem.minimize .dialog-content,
+.dialog-box-oem.minimize .dialog-action {
+  display:none;
+  visibility:hidden;
+}
