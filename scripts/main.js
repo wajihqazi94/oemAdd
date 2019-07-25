@@ -1,6 +1,3 @@
-/**
- * @returns {{initialize: Function, focus: Function, blur: Function}}
- */
 geotab.addin.oemAdd = function() {
     'use strict';
 	
@@ -9,20 +6,6 @@ geotab.addin.oemAdd = function() {
 		let oemAddSelected = document.getElementById("oemAddSelected");
 		let oemAddAll = document.getElementById("oemAddAll");
 		let oemHelpBtn = document.getElementById("oemHelpButton");
-		let currentUser;
-		
-		api.getSession(function(sessionInfo) {
-			currentUser = sessionInfo.userName;
-		});
-		
-		let userObj = await getUser(api, currentUser);
-		if (userObj) {
-			if (userObj[0].securityGroups[0].id === "GroupEverythingSecurityId") {
-				enableElement(document.getElementById("oemPrimary"));
-			}
-		} else {
-			disableElement(document.getElementById("oemPrimary"));
-		}
 		
 		oemAddSelected.disabled = false;
 		oemAddAll.disabled = false;
@@ -50,23 +33,9 @@ geotab.addin.oemAdd = function() {
 			setDialog("open", {
 				title: "Help",
 				content: "This page allows administrators to add OEM credentials to the MyGeotab database."
-			})
-		})
-		populateSelectBox((oemList));
-	};
-	
-	let getUser = function(api, name) {
-		return new Promise(function(resolve, reject) {
-			api.call("Get", {"typeName": "User",
-				"search": {
-					"name": name
-				}
-			}, function(result) {
-				resolve(result);
-			}, function(e) {
-				resolve(e);
 			});
 		});
+		populateSelectBox((oemList));
 	};
 	
 	let getSelectedProviders = function() {
@@ -104,8 +73,6 @@ geotab.addin.oemAdd = function() {
 	};
 	
 	let progressHandler = function(msg, progress) {
-		let progressLabelTimer;
-		let oemProgressBox = document.getElementById("oemProgressBox");
 		let progressValue = document.getElementById("oemProgressBar");
 		let progressText = document.getElementById("oemProgressLabel");
 		progressText.textContent = msg;
@@ -161,6 +128,10 @@ geotab.addin.oemAdd = function() {
 			addCreds(selections, data, results, api, loadSize, curProgress);
 		} else {
 			progressHandler("Finished adding credentials!", curProgress);
+			setTimeout(function () {
+				disableElement(document.getElementById("oemProgressLabel"));
+				disableElement(document.getElementById("oemProgressBox"));
+			}, 6000);
 		}	
 	};
 
@@ -169,10 +140,7 @@ geotab.addin.oemAdd = function() {
 			let providerPayload = [
 				{
 					"datasourceid": providerObj.dataSourceId,
-					"userinfo": {
-						"clientid": providerObj.userInfoSchema.clientId,
-						"clientsecret": providerObj.userInfoSchema.clientSecret
-					}
+					"userinfo": providerObj.userInfoSchema
 				}
 			];
 			api.call("AddOEMCredentials", {
@@ -193,33 +161,17 @@ geotab.addin.oemAdd = function() {
     let disableElement = function(elem) {
 		elem.classList.add("hidden");
     };
-	// Simple Dialog Box Plugin by Taufik Nurrohman
-	// URL: http://www.dte.web.id + https://plus.google.com/108949996304093815163/about
-	// Licence: none
 
 	(function(a, b) {
 
-		var uniqueId = new Date().getTime();
-
-		(function() { // Create the dialog box markup
-			var div = b.createElement('div'),
-				ovr = b.createElement('div');
-				div.className = 'dialog-box-oem';
-				div.id = 'dialog-box-oem-' + uniqueId;
-				div.innerHTML = '<div class="dialog-title">&nbsp;</div><a href="javascript:;" class="dialog-minmax" title="Minimize">&ndash;</a><a href="javascript:;" class="dialog-close" title="Close">&times;</a><div class="dialog-content">&nbsp;</div><div class="dialog-action"></div>';
-				ovr.className = 'dialog-box-oem-overlay';
-			b.body.appendChild(div);
-			b.body.appendChild(ovr);
-		})();
-
 		var maximize = false,
-			dialog = b.getElementById('dialog-box-oem-' + uniqueId), // The HTML of dialog box
+			dialog = document.getElementById('dialogBoxOem'), // The HTML of dialog box
 			dialog_title = dialog.children[0],
 			dialog_minmax = dialog.children[1],
 			dialog_close = dialog.children[2],
 			dialog_content = dialog.children[3],
 			dialog_action = dialog.children[4],
-			dialog_overlay = dialog.nextSibling;
+			dialog_overlay = document.getElementById('dialogOemOverlay');
 
 		a.setDialog = function(set, config) {
 
@@ -231,8 +183,6 @@ geotab.addin.oemAdd = function() {
 				defaults = {
 					title: dialog_title.innerHTML,
 					content: dialog_content.innerHTML,
-					width: 300,
-					height: 150,
 					top: false,
 					left: false,
 					buttons: {
@@ -268,16 +218,14 @@ geotab.addin.oemAdd = function() {
 			function _destroy() {
 				selected = null;
 			}
-
+			
+			// Show dialog box and overlay when toggled
 			dialog.className =  "dialog-box-oem " + (defaults.fixed ? 'fixed-dialog-box-oem ' : '') + defaults.specialClass;
 			dialog.style.visibility = (set === "open") ? "visible" : "hidden";
 			dialog.style.opacity = (set === "open") ? 1 : 0;
-			dialog.style.width = defaults.width + 'px';
-			dialog.style.height = defaults.height + 'px';
+			// Reset position in case user drags the pop up off the screen
 			dialog.style.top = (!defaults.top) ? "50%" : '0px';
 			dialog.style.left = (!defaults.left) ? "50%" : '0px';
-			dialog.style.marginTop = (!defaults.top) ? '-' + defaults.height/2 + 'px' : defaults.top + 'px';
-			dialog.style.marginLeft = (!defaults.left) ? '-' + defaults.width/2 + 'px' : defaults.left + 'px';
 			dialog_title.innerHTML = defaults.title;
 			dialog_content.innerHTML = defaults.content;
 			dialog_action.innerHTML = "";
@@ -286,7 +234,7 @@ geotab.addin.oemAdd = function() {
 			if (defaults.buttons) {
 				for (var j in defaults.buttons) {
 					var btn = b.createElement('a');
-						btn.className = 'btn';
+						btn.className = 'oem-dlg-btn';
 						btn.href = 'javascript:;';
 						btn.innerHTML = j;
 						btn.onclick = defaults.buttons[j];
@@ -335,56 +283,16 @@ geotab.addin.oemAdd = function() {
 	})(window, document);
 
     return {
-        /**
-         * initialize() is called only once when the Add-In is first loaded. Use this function to initialize the
-         * Add-In's state such as default values or make API requests (MyGeotab or external) to ensure interface
-         * is ready for the user.
-         * @param {object} api - The GeotabApi object for making calls to MyGeotab.
-         * @param {object} state - The page state object allows access to URL, page navigation and global group filter.
-         * @param {function} initializeCallback - Call this when your initialize route is complete. Since your initialize routine
-         *        might be doing asynchronous operations, you must call this method when the Add-In is ready
-         *        for display to the user.
-         */
         initialize: function(api, state, initializeCallback) {
             init(api);
-            // MUST call initializeCallback when done any setup
             initializeCallback();
         },
 
-        /**
-         * focus() is called whenever the Add-In receives focus.
-         *
-         * The first time the user clicks on the Add-In menu, initialize() will be called and when completed, focus().
-         * focus() will be called again when the Add-In is revisited. Note that focus() will also be called whenever
-         * the global state of the MyGeotab application changes, for example, if the user changes the global group
-         * filter in the UI.
-         *
-         * @param {object} api - The GeotabApi object for making calls to MyGeotab.
-         * @param {object} state - The page state object allows access to URL, page navigation and global group filter.
-         */
         focus: function(api, state) {
-            // example of setting url state
-            state.setState({
-                hello: 'world'
-            });
-
-            // getting the current user to display in the UI
-            api.getSession(session => {
-
-            });
 
         },
 
-        /**
-         * blur() is called whenever the user navigates away from the Add-In.
-         *
-         * Use this function to save the page state or commit changes to a data store or release memory.
-         *
-         * @param {object} freshApi - The GeotabApi object for making calls to MyGeotab.
-         * @param {object} freshState - The page state object allows access to URL, page navigation and global group filter.
-         */
         blur: function() {
-            // hide main content
         }
     };
 };

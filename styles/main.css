@@ -78,6 +78,11 @@
 	color: #25477b;
 	fill: #25477b;
 	cursor: pointer;
+	position: relative;
+	display: inline-block;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	word-break: normal;
 }
 
 .oemProgress {
@@ -108,8 +113,12 @@
 }
 
 #oemConfig {
-	width: 15%;
+	width: 20%;
 	padding: 1px;
+}
+
+#oemPrimary {
+	min-width: 85em;
 }
 
 #oemPrimary h2 {
@@ -149,10 +158,8 @@
   -mz-box-shadow:0 1px 5px rgba(0,0,0,.2);
   box-shadow:0 1px 5px rgba(0,0,0,.2);
   position:absolute;
-  width:200px;
-  height:100px;
-  margin-top:-51px;
-  margin-left:-101px;
+  margin-top:-75px;
+  margin-left:-150px;
   z-index:9999;
   color:#222;
   visibility:hidden;
@@ -208,13 +215,13 @@
   right:0;
   bottom:0;
   left:0;
-  height:2em;
+  height:3em;
   padding:.5em;
   background-color:#FFFFFF;
   border-top:1px solid #ccc;
   text-align:right;
 }
-.dialog-box-oem .dialog-action .btn, .btn {
+.dialog-box-oem .dialog-action .oem-dlg-btn, .oem-dlg-btn {
   text-decoration:none;
   border:none;
   outline:none;
@@ -252,7 +259,7 @@
 .dialog-box-oem .dialog-minmax {right:1.5em}
 .dialog-box-oem .dialog-close:focus,
 .dialog-box-oem .dialog-minmax:focus,
-.dialog-box-oem .dialog-action .btn:focus {
+.dialog-box-oem .dialog-action .oem-dlg-btn:focus {
   border-width:0;
   outline:none;
 }
@@ -262,15 +269,15 @@
 .dialog-box-oem .dialog-minmax:focus {color:#C90000}
 .dialog-box-oem .dialog-close:active,
 .dialog-box-oem .dialog-minmax:active {color:#444}
-.dialog-box-oem .dialog-action .btn:hover, .btn:hover {
+.dialog-box-oem .dialog-action .oem-dlg-btn:hover, .oem-dlg-btn:hover {
 	border-color:#5293c6;
 	background: #d1e7fb;
 }
-.dialog-box-oem .dialog-action .btn:focus {
+.dialog-box-oem .dialog-action .oem-dlg-btn:focus {
   border-color:#2c7ab1;
   border-width:1px;
 }
-.dialog-box-oem .dialog-action .btn:active, .btn:active {
+.dialog-box-oem .dialog-action .oem-dlg-btn:active, .oem-dlg-btn:active {
   color: #fff;
   border-color:#2c7ab1;
   background-color:#2c7ab1;
@@ -301,12 +308,12 @@
   top:-1px !important;
   left:1em !important;
 }
-.dialog-box-oem .minimize .dialog-title {
+.dialog-box-oem.minimize .dialog-title {
   color:transparent;
   text-shadow:none;
   text-indent:-9999px;
 }
-.dialog-box.minimize .dialog-minmax {
+.dialog-box-oem.minimize .dialog-minmax {
   right:0;
   left:0;
 }
@@ -315,4 +322,8 @@
 .dialog-box-oem.minimize .dialog-action {
   display:none;
   visibility:hidden;
+}
+
+* {
+	box-sizing: border-box;
 }
