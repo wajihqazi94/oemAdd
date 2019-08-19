@@ -279,6 +279,7 @@ geotab.addin.oemAdd = function() {
 			let providerList = document.getElementById("oemProviders");
 			let oemHelpBtn = document.getElementById("oemHelpButton");
 			let oemSchema;
+			grabUserTimeZone(api);
 			
 			oemAddSelected.disabled = false;
 			providerList.addEventListener("change", function() {

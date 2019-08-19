@@ -109,17 +109,21 @@
 
 .oemFormBtn {
 	margin: 0px 4px;
-	width: 45%;
+	width: 30%;
 }
 
 #oemProviders {
-	width: 54.5%;
+	width: 45%;
 	border-color: #c5dbec;
 }
 
 #oemConfig {
 	width: 20%;
 	padding: 1px;
+}
+
+#oemAddSelected {
+	float: right;
 }
 
 #oemPrimary {
