@@ -1,64 +1,51 @@
 geotab.addin.oemAdd = function() {
-    'use strict';
+    'use strict';	
+	let deleteChildren = function(myNode) {
+		while (myNode.firstChild) {
+			myNode.removeChild(myNode.firstChild);
+		}
+	};
 	
-	let init = async function(api) {
-		let oemList = await grabOEMProviders(api);
-		let oemAddSelected = document.getElementById("oemAddSelected");
-		let oemAddAll = document.getElementById("oemAddAll");
-		let oemHelpBtn = document.getElementById("oemHelpButton");
+	let clearForm = function() {
+		let oemFields = document.getElementsByClassName("oemInput");
+		for (let fieldIndex = 0; fieldIndex < oemFields.length; fieldIndex++) {
+			oemFields[fieldIndex].innerHTML = "";
+			oemFields[fieldIndex].value = "";
+		};
+	};
+	
+	let buildForm = function(oemData) {
+		let oemList = document.getElementById("oemProviders");
+		let selectedProvider = oemList.value;
+		let selectedSchema;
+		let pDiv = document.getElementById("oemDynamicForm");
+		deleteChildren(pDiv);
+		for (let oemOpt = 0; oemOpt < oemData.length; oemOpt++) {
+			let curOpt = oemData[oemOpt];
+			if (curOpt.dataSourceName === selectedProvider) {
+				selectedSchema = curOpt.userInfoSchema;
+				console.log(selectedSchema);
+				break;
+			}
+		}
 		
-		oemAddSelected.disabled = false;
-		oemAddAll.disabled = false;
-		oemAddSelected.addEventListener("click", async function() {
-			let selectedProviders = getSelectedProviders();
-			if (selectedProviders.length === 0) {
-				errorHandler("Please select at least one OEM provider!");
-			} else {
-				let resultList = [];
-				enableElement(document.getElementById("oemProgressBox"));
-				await addCreds(selectedProviders, oemList, resultList, api, selectedProviders.length, 0); 
+		for (let schemaKey in selectedSchema) { 
+			let div = document.createElement("div");
+			let newLabel = document.createElement("label");
+			let newInput = document.createElement("input");
+			div.setAttribute("class", "oemField clearfix");
+			newLabel.innerHTML = schemaKey;
+			newInput.setAttribute("id", schemaKey);
+			newInput.setAttribute("class", "oemInput");
+			if (selectedSchema[schemaKey] === "text") {	
+				newInput.setAttribute("type", "text");
 			}
-		});
-		oemAddAll.addEventListener("click", async function() {
-			let allProviders = getAllProviders();
-			if (allProviders.length === 0) {
-				errorHandler("It seems there are no available OEM providers to add");
-			} else {
-				let resultList = [];
-				enableElement(document.getElementById("oemProgressBox"));
-				await addCreds(allProviders, oemList, resultList, api, allProviders.length, 0);
-			}
-		});
-		oemHelpBtn.addEventListener("click", async function() {
-			setDialog("open", {
-				title: "Help",
-				content: "This page allows administrators to add OEM credentials to the MyGeotab database."
-			});
-		});
-		populateSelectBox((oemList));
-	};
-	
-	let getSelectedProviders = function() {
-		let oemList = document.getElementById("oemProviders");
-		let selectedProviders = [];
-		for (let oemOpt = 0; oemOpt < oemList.length; oemOpt++) {
-			let curOpt = oemList[oemOpt];
-			if (curOpt.selected) {
-				selectedProviders.push(parseInt(curOpt.id));
-			}
+			div.appendChild(newLabel);
+			div.appendChild(newInput);
+			pDiv.appendChild(div);	
 		}
-		return selectedProviders;
-	};
-	
-	let getAllProviders = function() {
-		let oemList = document.getElementById("oemProviders");
-		let allProviders = [];
-		for (let oemOpt = 0; oemOpt < oemList.length; oemOpt++) {
-			let curOpt = oemList[oemOpt];
-			allProviders.push(parseInt(curOpt.id));
-		}
-		return allProviders;
-	};
+		return selectedSchema;
+	};		
 	
 	let errorHandler = function(msg) {
 		let errorMessageTimer;
@@ -93,8 +80,6 @@ geotab.addin.oemAdd = function() {
 	
 	let populateSelectBox = function(oemData) {
 		let oemList = document.getElementById("oemProviders");
-		oemList.options.length = 0;
-		oemList.size = oemData.length+1;
 		for (let providerIndex = 0; providerIndex < oemData.length; providerIndex++) {
 			let providerOption = document.createElement("option");
 			providerOption.text = oemData[providerIndex].dataSourceName;
@@ -111,36 +96,25 @@ geotab.addin.oemAdd = function() {
 		}
 	};
 	
-	let addCreds = async function(selections, data, results, api, loadSize, previousProgress) {
-		let curId = selections.pop();
-		let arrInd = getArrayIndex(curId, data);
-		progressHandler("Adding " + data[arrInd].dataSourceName + " to the database...", previousProgress);
-		let curProgress = (loadSize - selections.length)/loadSize;
-		let addResult = await addOEMProviders(api, data[arrInd]);
-		if (addResult === "Exception: Exception with adding OEM Credentials: There is an internal server error with the OEM Registry.") {
-			errorHandler("Credentials for " + data[arrInd].dataSourceName + " may already have been added to the database.");
-			progressHandler("Failed to add " + data[arrInd].dataSourceName + " to the database.", curProgress);
-		} else {
-			progressHandler("Successfully added " + data[arrInd].dataSourceName + " to the database.", curProgress);
-		}
-		results.push(addResult);
-		if (selections.length > 0) {
-			addCreds(selections, data, results, api, loadSize, curProgress);
-		} else {
-			progressHandler("Finished adding credentials!", curProgress);
-			setTimeout(function () {
-				disableElement(document.getElementById("oemProgressLabel"));
-				disableElement(document.getElementById("oemProgressBox"));
-			}, 6000);
-		}	
+	let addCreds = async function(api, id, name, payload) {
+		progressHandler("Adding " + name + " to the database...", 0);
+		enableElement(document.getElementById("oemProgressBox"));
+		console.log(payload);
+		let addResult = await addOEMProviders(api, id, payload);
+		progressHandler("Successfully added " + name + " to the database.", 1);
+		setTimeout(function () {
+			disableElement(document.getElementById("oemProgressLabel"));
+			disableElement(document.getElementById("oemProgressBox"));
+			clearForm();
+		}, 6000);
 	};
 
-    let addOEMProviders = function(api, providerObj) {
+    let addOEMProviders = function(api, id, providerObj) {
 		return new Promise(function(resolve, reject) {
 			let providerPayload = [
 				{
-					"datasourceid": providerObj.dataSourceId,
-					"userinfo": providerObj.userInfoSchema
+					"datasourceid": id,
+					"userinfo": providerObj
 				}
 			];
 			api.call("AddOEMCredentials", {
@@ -153,6 +127,22 @@ geotab.addin.oemAdd = function() {
 			});
 		});
     };
+	
+	let grabUserTimeZone = function(api) {
+		return new Promise(function(resolve, reject) {
+			api.getSession(function(credentials) {
+				console.log(credentials);
+				api.call("Get", {"typeName": "User",
+					"search": {
+						"name": credentials.userName	
+					}
+				}, function(userObj) {
+					console.log(userObj);
+					resolve(userObj);
+				})
+			});
+		});
+	};
 
     let enableElement = function(elem) {
 		elem.classList.remove("hidden");
@@ -283,8 +273,64 @@ geotab.addin.oemAdd = function() {
 	})(window, document);
 
     return {
-        initialize: function(api, state, initializeCallback) {
-            init(api);
+        initialize: async function(api, state, initializeCallback) {
+			let oemList = await grabOEMProviders(api);
+			let oemAddSelected = document.getElementById("oemAddSelected");
+			let providerList = document.getElementById("oemProviders");
+			let oemHelpBtn = document.getElementById("oemHelpButton");
+			let oemSchema;
+			
+			oemAddSelected.disabled = false;
+			providerList.addEventListener("change", function() {
+				oemSchema = buildForm(oemList);
+			});
+			oemAddSelected.addEventListener("click", async function() {
+				let oemFields = document.getElementsByClassName("oemInput");
+				let tempObj = {};
+				let userTimezone  = await oemAdd.timeZoneConversionModule.userTimeZoneOffset(api);
+				let isValid = true;
+				for (let fieldIndex = 0; fieldIndex < oemFields.length; fieldIndex++) {
+					if (oemSchema[oemFields[fieldIndex].id] === "datetime") {
+						let dateUTZ = new Date(oemFields[fieldIndex].value);
+						if (dateUTZ instanceof Date && !isNaN(dateUTZ)) {
+							dateUTZ.setHours(dateUTZ.getHours() + (-1*userTimezone["hours"]));
+							dateUTZ.setMinutes(dateUTZ.getMinutes() + (-1*userTimezone["minutes"]));
+							tempObj[oemFields[fieldIndex].id] = dateUTZ.toISOString();
+						} else {
+							errorHandler("Please enter a valid date!");
+							isValid = false;
+						}
+						
+					} else if (oemSchema[oemFields[fieldIndex].id].includes("[")) {
+						// The string extraction is only to see what type of items the array will hold
+						// At this point I don't know if any values other than text would be used
+						// For the time being I will leave this code here in case it comes in handy
+						/*
+						let regExp = /\[([^)]+)\]/;
+						let match = regExp.exec(oemSchema[oemFields[fieldIndex].id]);
+						console.log(regExp.exec(oemSchema[oemFields[fieldIndex].id]));
+						console.log(match[1]);
+						*/
+						let items = oemFields[fieldIndex].value.split(",");
+						tempObj[oemFields[fieldIndex].id] = items;
+					} else {
+						tempObj[oemFields[fieldIndex].id] = oemFields[fieldIndex].value;
+					}
+				}
+				console.log(tempObj);
+				if (isValid) {
+					await addCreds(api,providerList[providerList.selectedIndex].id, providerList.value, tempObj);
+				}
+				
+			});
+			oemHelpBtn.addEventListener("click", async function() {
+				setDialog("open", {
+					title: "Help",
+					content: "This page allows administrators to add OEM credentials to the MyGeotab database."
+				});
+			});
+			populateSelectBox((oemList));
+			oemSchema = buildForm(oemList);
             initializeCallback();
         },
 

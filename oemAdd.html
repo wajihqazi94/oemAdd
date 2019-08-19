@@ -19,6 +19,7 @@
       <!-- endbuild -->
       <!-- build:js scripts/main.js -->
       <script src="scripts/main.js"></script>
+	  <script src="scripts/tzOffset.js"></script>
       <!-- endbuild -->
    </head>
    <body>
@@ -43,12 +44,14 @@
             <div id="oemConfig">
                <div class="oemField clearfix">
                   <label>OEM Providers:</label>
-                  <select id="oemProviders" multiple>
+                  <select id="oemProviders">
                   </select>
                </div>
-               <div class="oemField">
-                  <button class="oemBtn oemFormBtn" id="oemAddSelected" disabled>Add Selected</button>
-                  <button class="oemBtn oemFormBtn" id="oemAddAll" disabled>Add All</button>
+			   <div class="oemField clearfix" id="oemDynamicForm">
+			   </div>
+               <div class="oemField" id="oemBtnDiv">
+                  <button class="oemBtn oemFormBtn" id="oemAddSelected" disabled>Add Provider</button>
+                  <!-- <button class="oemBtn oemFormBtn" id="oemAddAll" disabled>Add All</button> -->
                </div>
                <div class="hidden oemField oemAlertBoxError" id="oemErrorBox"> 
                   <label id="oemErrorLabel"></label>

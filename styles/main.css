@@ -13,8 +13,13 @@
 	padding: 2px;
 }
 
+.oemInput {
+	margin: 0.2em;
+}
+
 .oemField select:nth-child(2),
-.oemField button:nth-child(2) {
+.oemField button:nth-child(2),
+.oemField input:nth-child(2) {
 	float: right;
 }
 
@@ -27,7 +32,8 @@
 }
 
 .oemField label,
-.oemField select {
+.oemField select,
+.oemField input {
 	margin: 0px 4px;
 }
 /* oemAlertBox for future to add warnings in yellow if needed*/
