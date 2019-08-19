@@ -10,7 +10,6 @@
 .oemField {
 	border-radius: 2px;
 	margin: 6px 0px;
-	padding: 2px;
 }
 
 .oemInput {
@@ -114,7 +113,7 @@
 }
 
 #oemProviders {
-	width: 45%;
+	width: 54.5%;
 	border-color: #c5dbec;
 }
 
@@ -124,7 +123,7 @@
 }
 
 #oemPrimary {
-	min-width: 85em;
+	min-width: 140em;
 }
 
 #oemPrimary h2 {
