@@ -327,7 +327,7 @@ geotab.addin.oemAdd = function() {
 			oemHelpBtn.addEventListener("click", async function() {
 				setDialog("open", {
 					title: "Help",
-					content: "This page allows administrators to add OEM credentials to the MyGeotab database."
+					content: "This page allows administrators to add OEM credentials to the MyGeotab database. For any fields that require multiple entries the values should be comma separatated."
 				});
 			});
 			populateSelectBox((oemList));
