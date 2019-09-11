@@ -69,7 +69,7 @@ geotab.addin.oemAdd = function() {
     let grabOEMProviders = function(api) {
 		return new Promise(function(resolve, reject) {
 			api.call("GetOEMCredentialsSchema", {
-				"oemUrl":"https://oemregistrytest.geotab.com/" 
+				"oemUrl":"https://oemregistrytest.geotab.com" 
 			}, function(result) {
 				resolve(result);
 			}, function(e) {
@@ -119,7 +119,7 @@ geotab.addin.oemAdd = function() {
 			];
 			api.call("AddOEMCredentials", {
 				"oemCredentials": providerPayload,
-				"oemUrl":"https://oemregistrytest.geotab.com/"
+				"oemUrl":"https://oemregistrytest.geotab.com"
 			}, function(result) {
 				resolve(result);
 			}, function(e) {
